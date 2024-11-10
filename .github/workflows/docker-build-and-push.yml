@@ -1,0 +1,45 @@
+name: Docker CI/CD
+
+on:
+  push:
+    branches:
+      - master  
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and tag Docker images
+        run: |
+          docker build -t udagram-reverseproxy ./udagram-reverseproxy
+          docker build -t udagram-api-feed ./udagram-api-feed
+          docker build -t udagram-api-user ./udagram-api-user
+          docker build -t udagram-frontend ./udagram-frontend
+          
+          docker tag udagram-reverseproxy chaultm29/udagram-reverseproxy:v0r0
+          docker tag udagram-api-feed chaultm29/udagram-api-feed:v0r0
+          docker tag udagram-api-user chaultm29/udagram-api-user:v0r0
+          docker tag udagram-frontend chaultm29/udagram-frontend:v0r0
+
+      - name: Push Docker images
+        run: |
+          docker push chaultm29/udagram-reverseproxy:v0r0
+          docker push chaultm29/udagram-api-feed:v0r0
+          docker push chaultm29/udagram-api-user:v0r0
+          docker push chaultm29/udagram-frontend:v0r0

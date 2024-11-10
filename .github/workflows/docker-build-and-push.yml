@@ -35,11 +35,12 @@ jobs:
           docker tag udagram-reverseproxy chaultm29/udagram-reverseproxy:v0r0
           docker tag udagram-api-feed chaultm29/udagram-api-feed:v0r0
           docker tag udagram-api-user chaultm29/udagram-api-user:v0r0
-          docker tag udagram-frontend chaultm29/udagram-frontend:local
+          docker tag udagram-frontend chaultm29/udagram-frontend:v0r0
+
 
       - name: Push Docker images
         run: |
           docker push chaultm29/udagram-reverseproxy:v0r0
           docker push chaultm29/udagram-api-feed:v0r0
           docker push chaultm29/udagram-api-user:v0r0
-          docker push chaultm29/udagram-frontend:local
+          docker push chaultm29/udagram-frontend:v0r0
